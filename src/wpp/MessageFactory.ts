@@ -1,13 +1,13 @@
 import { HttpException } from "@nestjs/common";
 import { throwError } from "rxjs";
 import { Topics } from "./Topics";
-import { VenonBot } from "./VenonBot/VenonBot.intance";
+import { Bot } from "./VenonBot/Bot.intance";
 import { MessageWpp } from "./wpp.dto/Message.dto";
 
 export class MessageFactory {
-    venon: VenonBot
+    venon: Bot
     constructor() {
-        this.venon = new VenonBot()
+        this.venon = new Bot()
     }
     getMessage(message_wpp: MessageWpp): Topics[] {
         let topics = []
@@ -34,7 +34,8 @@ export class MessageFactory {
         const venon_instance = this.venon.getClient()
         try {
             if (venon_instance !== undefined) {
-                await venon_instance.sendText(number, msg)
+
+                await venon_instance.sendMessage(number, msg)
             }
         }
         catch (err) {
