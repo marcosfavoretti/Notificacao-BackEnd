@@ -1,15 +1,14 @@
 import { HttpException } from "@nestjs/common";
-import { throwError } from "rxjs";
-import { Topics } from "./Topics";
-import { Bot } from "./VenonBot/Bot.intance";
-import { MessageWpp } from "./wpp.dto/Message.dto";
+import { Topics } from "./Objects/Topics";
+import {
+    MessageWppDto
+} from "./wpp.dto/Message.dto";
 
-export class MessageFactory {
-    venon: Bot
+export class MesssageBuilder {
     constructor() {
-        this.venon = new Bot()
     }
-    getMessage(message_wpp: MessageWpp): Topics[] {
+
+    getMessage(message_wpp: MessageWppDto): Topics[] {
         let topics = []
         for (let i of Object.keys(message_wpp)) {
             if (i !== 'celular' && i !== 'botnome' && i !== 'msg') {
@@ -18,6 +17,7 @@ export class MessageFactory {
         }
         return topics //retorno um map
     }
+
     GenerateMessage(botnome: string, title: string, dataList: Topics[]): string {
         let msgBody = ''
 
@@ -30,17 +30,5 @@ export class MessageFactory {
         }
         return msgBody;
     }
-    async sendMessage(number: string, msg: string) {
-        const venon_instance = this.venon.getClient()
-        try {
-            if (venon_instance !== undefined) {
 
-                await venon_instance.sendMessage(number, msg)
-            }
-        }
-        catch (err) {
-            console.log(err)
-            throw new HttpException('erro ao enviar a msg', 500)
-        }
-    }
 }

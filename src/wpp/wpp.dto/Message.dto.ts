@@ -1,6 +1,6 @@
 import { IsString, IsInt, isString } from 'class-validator';
 
-export class MessageWpp {
+export class MessageWppDto {
     @IsString()
     celular: string
     @IsString()
