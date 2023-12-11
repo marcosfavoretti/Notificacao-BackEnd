@@ -1,16 +1,20 @@
 import { IActionBot } from "./Interfaces/IActionBot";
-import { TaskSchedule } from "./Interfaces/TaskSchedule";
-import { UpdatePowerBI } from "./Interfaces/UpdatePowerBi";
+import { TaskSchedule } from "./TaskSchedule";
+import { UpdatePowerBI } from "./UpdatePowerBi";
 import { IParamActions } from "./Interfaces/IParamActions";
-import { GetRefreshes } from "./Interfaces/GetPowerBisRefresh";
+import { GetRefreshes } from "./GetPowerBisRefresh";
+import { HelpManu } from "./HelpMenu";
+import { throttleTime } from "rxjs";
 export class EventFactory {
-    constructor() {
-    }
+    private readonly actions: Record<string, IActionBot>;
 
-    private readonly actions: Record<string, IActionBot> = {
-        "!task": new TaskSchedule(),
-        "!refresh": new UpdatePowerBI(),
-        "!ultatt": new GetRefreshes()
+    constructor() {
+        this.actions = {
+            "!task": new TaskSchedule(),
+            "!refresh": new UpdatePowerBI(),
+            "!ultatt": new GetRefreshes(),
+        };
+        this.actions["!help"] = new HelpManu(this.actions)
     }
 
     factory(message_event: string): IActionBot {

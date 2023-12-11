@@ -1,12 +1,16 @@
 import { Topics } from "src/wpp/Objects/Topics";
-import { IActionBot } from "./IActionBot";
+import { IActionBot } from "./Interfaces/IActionBot";
 import axios from "axios"
-import { IParamActions } from "./IParamActions";
+import { IParamActions } from "./Interfaces/IParamActions";
+import { IHelpMenu } from "./Interfaces/IHelpMenu";
 
-export class UpdatePowerBI implements IActionBot, IParamActions {
+export class UpdatePowerBI implements IActionBot, IParamActions, IHelpMenu {
     param: string;
     setparam(param: string): void {
         this.param = param
+    }
+    getHelp(): string {
+        return `faz a atulização de um dataset do powerbi\n*parametros*\n->SOLDA\n->BANHO\n->PINTURA\n->EMBARQUE\n->SEMANAL\n->RNC\n->Trello`
     }
     public setDataset(dataset: string) {
         this.param = dataset
